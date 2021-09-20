@@ -118,24 +118,67 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"script.js":[function(require,module,exports) {
+// Mouse Circle
 var mouseCircle = document.querySelector(".mouse-circle");
-var mouseDot = document.querySelector(".mouse-dot"); // Mouse Circle
+var mouseDot = document.querySelector(".mouse-dot");
 
 var mouseCircleFn = function mouseCircleFn(x, y) {
-  mouseCircle.style.cssText = "top: ".concat(y, "px ; left: ").concat(x, "px");
-  mouseDot.style.cssText = "top: ".concat(y, "px ; left: ").concat(x, "px");
-};
+  mouseCircle.style.cssText = "top: ".concat(y, "px ; left: ").concat(x, "px ; opacity:1");
+  mouseDot.style.cssText = "top: ".concat(y, "px ; left: ").concat(x, "px ; opacity:1");
+}; // End of Mouse Circle
+// Animated Circles
+
+
+var circles = document.querySelectorAll(".circle");
+var mainImg = document.querySelector(".main-circle img");
+var mX = 0;
+var mY = 0;
+var z = 100;
+
+var animateCircles = function animateCircles(e, x, y) {
+  if (x < mX) {
+    // console.log("moved to the left");
+    circles.forEach(function (circle) {
+      circle.style.left = "".concat(z, "px");
+    });
+    mainImg.style.left = "".concat(z, "px");
+  } else if (x > mX) {
+    circles.forEach(function (circle) {
+      circle.style.left = "-".concat(z, "px");
+    });
+    mainImg.style.left = "-".concat(z, "px");
+  }
+
+  if (y < mY) {
+    // console.log("move upwards");
+    circles.forEach(function (circle) {
+      circle.style.top = "".concat(z, "px");
+    });
+    mainImg.style.top = "".concat(z, "px");
+  } else if (y > mY) {
+    circles.forEach(function (circle) {
+      circle.style.top = "-".concat(z, "px");
+    });
+    mainImg.style.top = "-".concat(z, "px");
+  }
+
+  mX = e.clientX;
+  mY = e.clientY;
+}; // End Animated Circles
+
 
 document.body.addEventListener("mousemove", function (e) {
   var x = e.clientX;
-  var y = e.clientY; //   console.log(x);
-
+  var y = e.clientY;
   mouseCircleFn(x, y);
+  animateCircles(e, x, y);
 });
 document.body.addEventListener("mouseleave", function () {
   mouseCircle.style.opacity = "0";
   mouseDot.style.opacity = "0";
-});
+}); // Main Buttom
+
+var mainBtn = document.querySelector(".main-btn"); // End of Main Buttom
 },{}],"../../../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -164,7 +207,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50320" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50352" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
