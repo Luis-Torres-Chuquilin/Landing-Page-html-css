@@ -137,6 +137,8 @@ var z = 100;
 
 var animateCircles = function animateCircles(e, x, y) {
   if (x < mX) {
+    // console.log("x", x);
+    // console.log("mX", mX);
     // console.log("moved to the left");
     circles.forEach(function (circle) {
       circle.style.left = "".concat(z, "px");
@@ -160,7 +162,8 @@ var animateCircles = function animateCircles(e, x, y) {
       circle.style.top = "-".concat(z, "px");
     });
     mainImg.style.top = "-".concat(z, "px");
-  }
+  } // This value is calculated after the value of x , x always is different from mX
+
 
   mX = e.clientX;
   mY = e.clientY;
@@ -169,7 +172,9 @@ var animateCircles = function animateCircles(e, x, y) {
 
 document.body.addEventListener("mousemove", function (e) {
   var x = e.clientX;
-  var y = e.clientY;
+  var y = e.clientY; // console.log("x", x);
+  // console.log("y", y);
+
   mouseCircleFn(x, y);
   animateCircles(e, x, y);
 });
@@ -178,7 +183,62 @@ document.body.addEventListener("mouseleave", function () {
   mouseDot.style.opacity = "0";
 }); // Main Buttom
 
-var mainBtn = document.querySelector(".main-btn"); // End of Main Buttom
+var mainBtns = document.querySelectorAll(".main-btn");
+mainBtns.forEach(function (btn) {
+  var ripple;
+  btn.addEventListener("mouseenter", function (e) {
+    // Get the btn coordinates
+    // console.log(e.target.getBoundingClientRect());
+    var left = e.clientX - e.target.getBoundingClientRect().left;
+    var top = e.clientY - e.target.getBoundingClientRect().top; // console.log("left", left);
+
+    ripple = document.createElement("div");
+    ripple.classList.add("ripple");
+    ripple.style.left = "".concat(left, "px");
+    ripple.style.top = "".concat(top, "px");
+    btn.prepend(ripple);
+  });
+  btn.addEventListener("mouseleave", function () {
+    btn.removeChild(ripple);
+  });
+}); // End of Main Buttom
+//  About Me Text
+
+var aboutMeText = document.querySelector(".about-me-text");
+var aboutMeTextContent = "I am a designer & I create awards winning websites with the best user experiences & I do not talk much, just contact me. :)"; // console.log(Array.from(aboutMeTextContent));
+
+Array.from(aboutMeTextContent).forEach(function (char) {
+  var span = document.createElement("span");
+  span.textContent = char;
+  aboutMeText.appendChild(span);
+  span.addEventListener("mouseenter", function (e) {
+    e.target.style.animation = "aboutMeTextAnim 10s infinite";
+  });
+}); // End of About Me Text
+// Projects
+
+var container = document.querySelector(".container");
+var projects = document.querySelectorAll(".project");
+projects.forEach(function (project) {
+  project.addEventListener("mouseenter", function () {
+    project.firstElementChild.style.top = "-".concat(project.firstElementChild.offsetHeight - project.offsetHeight + 20, "px");
+  });
+  project.addEventListener("mouseleave", function () {
+    project.firstElementChild.style.top = "2rem";
+  });
+  project.addEventListener("click", function () {
+    var bigImgWrapper = document.createElement("div");
+    bigImgWrapper.className = "project-img-wrapper";
+    container.appendChild(bigImgWrapper);
+    var bigImg = document.createElement("img");
+    bigImg.className = "project-img";
+    var imgPath = project.firstElementChild.getAttribute("src").split(".")[0];
+    console.log(imgPath);
+    bigImg.setAttribute("src", "images/projects/project-4-big.jpg");
+    bigImgWrapper.appendChild(bigImg);
+  });
+}); // Big Project Image
+// End of Projects
 },{}],"../../../../../.config/yarn/global/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -207,7 +267,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50352" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49498" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

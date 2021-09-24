@@ -32,7 +32,7 @@ html {
   z-index: 300;
   transform: translate(-50%, -50%);
 
-  /* To work  hover effect */
+  /* To work  hover effect in all the elements */
   pointer-events: none;
 }
 .mouse-circle {
@@ -212,7 +212,7 @@ html {
   font-size: 2rem;
   color: #fff;
   text-transform: uppercase;
-  /* Vertial words */
+  /* Vertical Letters */
   width: 0;
   word-wrap: break-word;
   line-height: 3.5;
@@ -242,6 +242,7 @@ html {
   border-radius: 50%;
   border: 0.2rem dotted #fff;
   padding: 0.1rem;
+  overflow: hidden;
 }
 
 .main-btn-content {
@@ -250,6 +251,14 @@ html {
   border: 0.2rem dotted #e7be08;
   border-radius: 50%;
   transform: rotate(40deg);
+  transition: transform 0.2s, border 0.2s;
+}
+
+/* Effect on the main botton */
+.main-btn:hover .main-btn-content {
+  transform: rotate(60deg);
+  border: 0.2rem dotted #9b0e0e;
+  transition: transform 0.2s 0.5s, border 0.2s;
 }
 
 .main-btn-line {
@@ -287,4 +296,238 @@ html {
   text-transform: uppercase;
 }
 
+/* Create a new element with JavaScript */
+.ripple {
+  position: absolute;
+  width: 0%;
+  height: 0%;
+  background-color: #e7be08;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: rippleAnim 0.5s forwards;
+}
+
+@keyframes rippleAnim {
+  0% {
+    width: 0;
+    height: 0;
+  }
+  100% {
+    width: 210%;
+    height: 210%;
+  }
+}
+/* End of Main Button */
+
 /* End of section 1 */
+
+/* Secction 2 */
+
+.section-2 {
+  position: relative;
+  padding: 10rem 10rem 15rem 10rem;
+  /* background-color: red; */
+}
+
+/* Heading */
+.section-2-heading {
+  font-size: 2rem;
+  font-weight: 300;
+  color: #fff;
+  text-transform: uppercase;
+  position: absolute;
+  top: 50%;
+  left: 10rem;
+  transform: translate(-50%);
+  /* Vertical Letters */
+  width: 0;
+  word-break: break-all;
+  line-height: 4;
+}
+/*  End of Heading */
+
+/* About Me Text */
+
+.about-me-text {
+  /* background-color: #ffbd07; */
+  width: 80%;
+  margin: auto;
+}
+.about-me-text span {
+  font-family: "Poppins", sans-serif;
+  font-size: 15rem;
+  font-weight: bold;
+  color: #aaa;
+  letter-spacing: 0.5rem;
+  line-height: 0.9;
+  text-shadow: 0 0 1rem #9b0e0e;
+  position: relative;
+  mix-blend-mode: color-dodge;
+}
+
+span:hover {
+  color: red;
+}
+
+@keyframes aboutMeTextAnim {
+  0% {
+    color: #aaa;
+    top: 0;
+  }
+  10%,
+  90% {
+    color: #fff;
+    top: 2rem;
+  }
+  100% {
+    color: #aaa;
+    top: 0;
+  }
+}
+/* End of About Me Text */
+
+/* Section 2 Main Button */
+
+.section-2 .main-btn {
+  /* position: relative; */
+  left: 50%;
+  bottom: -5rem;
+  transform: translateX(-50%);
+}
+/* End of Section 2 Main Button */
+
+/* Section 3 */
+
+.section-3 {
+  width: 100%;
+  height: 100%;
+  padding: 10rem 0;
+  margin-top: 10rem;
+  position: relative;
+  /* background-color: red; */
+}
+
+/* Projects */
+.projects {
+  flex-wrap: wrap;
+  padding-bottom: 15rem;
+  /* background-color: black; */
+  /* perspective is needed to animation rotate */
+  perspective: 20rem;
+}
+
+.project {
+  width: 40rem;
+  height: 45rem;
+  overflow: hidden;
+  margin: 5rem;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  border: 0.2rem dotted #9b0e0e;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  /* perspective is needed to animation rotate */
+  perspective: 20rem;
+}
+
+.projects img {
+  width: 90%;
+  object-fit: cover;
+  /* position: relative; */
+  position: absolute;
+  top: 2rem;
+  opacity: 0.5;
+  transition: top 4s 0.2s, opacity 0.2s;
+}
+
+/* .project:hover {
+  animation: oddImgAnim 4s 0.2s;
+} */
+
+.project:nth-child(odd):hover img {
+  animation: oddImgAnim 4s 0.2s;
+  opacity: 1;
+}
+
+@keyframes oddImgAnim {
+  0% {
+    transform: rotateY(0);
+  }
+  25% {
+    transform: rotateY(-2deg) rotateX(2deg);
+  }
+  50% {
+    transform: rotateY(2deg) rotateX(-2deg);
+  }
+  100% {
+    transform: rotateY(0);
+  }
+}
+
+.project:nth-child(even):hover img {
+  animation: evenImgAnim 4s 0.2s;
+  opacity: 1;
+}
+
+@keyframes evenImgAnim {
+  0% {
+    transform: rotateY(0);
+  }
+  25% {
+    transform: rotateY(2deg) rotateX(-2deg);
+  }
+  50% {
+    transform: rotateY(-2deg) rotateX(2deg);
+  }
+  100% {
+    transform: rotateY(0);
+  }
+}
+
+/* Big Project Image */
+
+/* End of Big Project Image */
+
+.project-img-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0;
+  background-color: rgba(0, 0, 0, 0.9);
+  overflow: hidden scroll;
+  animation: imgWrapperAnim 1s forwards;
+}
+
+@keyframes imgWrapperAnim {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 100%;
+  }
+}
+
+.project-img {
+  width: 100%;
+  border-radius: 0.5rem;
+  padding: 7rem 20rem;
+  opacity: 0.9;
+  transform-origin: top center;
+  animation: imgAnim 1s 1s both;
+}
+
+@keyframes imgAnim {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* End of Projects */
+
+/* End Section 3 */
