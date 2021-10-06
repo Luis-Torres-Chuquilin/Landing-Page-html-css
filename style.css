@@ -14,6 +14,7 @@
 
 html {
   font-size: 62.5%;
+  scroll-behavior: smooth;
 }
 
 .center {
@@ -23,6 +24,23 @@ html {
 }
 
 /* End of Common styles */
+
+/* Section  Heading */
+.section-heading {
+  font-size: 2rem;
+  font-weight: 300;
+  color: #fff;
+  text-transform: uppercase;
+  position: absolute;
+  top: 50%;
+  left: 10rem;
+  transform: translate(-50%);
+  /* Vertical Letters */
+  width: 0;
+  word-break: break-all;
+  line-height: 4;
+}
+/*  End of Heading */
 
 /* Mouse Circle */
 .mouse-circle,
@@ -97,6 +115,139 @@ html {
   background-size: cover;
 }
 /* End of BG */
+
+/* Progress Bar */
+.progress-bar {
+  position: fixed;
+  bottom: 8rem;
+  right: 8rem;
+  width: 8rem;
+  height: 8rem;
+  background-color: #fff;
+  border-radius: 50%;
+  z-index: 200;
+  overflow: hidden;
+}
+
+.half-circle,
+.half-circle-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  transform-origin: right center;
+  /* background-color: red; */
+}
+
+.half-circle:nth-child(1) {
+  /* background-color: green; */
+  background-color: #b60000;
+}
+
+.half-circle:nth-child(2) {
+  /* background-color: blue; */
+  background-color: #b60000;
+}
+
+.half-circle-top {
+  /* background-color: orange; */
+  background-color: #fff;
+}
+
+/* .progress-bar:hover .half-circle-top {
+  opacity: 0;
+  transition: opacity 0s 1s;
+}
+
+.progress-bar:hover .half-circle:nth-child(1) {
+  transform: rotate(180deg);
+  transition: transform 1s linear;
+}
+
+.progress-bar:hover .half-circle:nth-child(2) {
+  transform: rotate(360deg);
+  transition: transform 2s linear;
+} */
+
+.progress-bar-circle {
+  width: 7.8rem;
+  height: 7.8rem;
+  background-color: #000;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 4rem;
+  /* display: none; */
+  z-index: 200;
+  transition: transform 0.5s;
+}
+/* End of Progress Bar */
+
+/* Navigation */
+
+/*  Menu Icon */
+.menu-icon {
+  position: fixed;
+  top: 0;
+  right: 6rem;
+  width: 12rem;
+  height: 7rem;
+  /* background-color: red; */
+  flex-direction: column;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 100;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.menu-icon-line {
+  width: 4rem;
+  height: 0.1rem;
+  background-color: #fff;
+  margin: 0.5rem 0;
+  box-shadow: 0 0.3rem 0.5rem #000;
+}
+
+.show-menu-icon {
+  opacity: 1;
+  visibility: visible;
+}
+
+/*  End of Menu Icon */
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 2.5rem;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 3rem;
+  z-index: 100;
+  transition: opacity 0.5s, visibility 0.5s, transform 0.5s;
+}
+
+.navbar-link {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #fff;
+  margin: 0 2.5rem;
+  text-shadow: 0 0.3rem 0.5rem #000;
+  /* opacity: 0;
+  visibility: hidden; */
+}
+
+.hide-navbar {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(10rem);
+}
+
+/* End of Navbar */
+
+/* End of Navigation */
 
 /* Logo */
 
@@ -329,23 +480,6 @@ html {
   /* background-color: red; */
 }
 
-/* Heading */
-.section-2-heading {
-  font-size: 2rem;
-  font-weight: 300;
-  color: #fff;
-  text-transform: uppercase;
-  position: absolute;
-  top: 50%;
-  left: 10rem;
-  transform: translate(-50%);
-  /* Vertical Letters */
-  width: 0;
-  word-break: break-all;
-  line-height: 4;
-}
-/*  End of Heading */
-
 /* About Me Text */
 
 .about-me-text {
@@ -430,6 +564,7 @@ span:hover {
   cursor: pointer;
   /* perspective is needed to animation rotate */
   perspective: 20rem;
+  transition: opacity 0.5s;
 }
 
 .projects img {
@@ -488,8 +623,6 @@ span:hover {
 
 /* Big Project Image */
 
-/* End of Big Project Image */
-
 .project-img-wrapper {
   position: fixed;
   top: 0;
@@ -499,6 +632,8 @@ span:hover {
   background-color: rgba(0, 0, 0, 0.9);
   overflow: hidden scroll;
   animation: imgWrapperAnim 1s forwards;
+  z-index: 100;
+  scroll-behavior: smooth;
 }
 
 @keyframes imgWrapperAnim {
@@ -511,10 +646,11 @@ span:hover {
 }
 
 .project-img {
-  width: 100%;
+  width: 70%;
   border-radius: 0.5rem;
   padding: 7rem 20rem;
   opacity: 0.9;
+  display: block;
   transform-origin: top center;
   animation: imgAnim 1s 1s both;
 }
@@ -527,7 +663,212 @@ span:hover {
     transform: scale(1);
   }
 }
+/* End of Big Project Image */
 
+/* Project Hide Button  */
+
+.project-hide-btn {
+  position: fixed;
+  top: 5rem;
+  right: 5rem;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  letter-spacing: 0.1rem;
+  cursor: pointer;
+  z-index: 200;
+  transform: scale(0);
+  visibility: hidden;
+}
+
+.change.project-hide-btn {
+  transform: scale(1);
+  visibility: visible;
+  transition: transform 0.5s;
+}
+/* End of Project Hide Button  */
 /* End of Projects */
 
+/* Projects Button */
+.projects-btn {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.project-btn .main-btn-line {
+  transition: all 0.5s;
+}
+
+/* Revisar .toggle("change") en script.js */
+.change > .main-btn-line:nth-child(1) {
+  transform: rotateZ(45deg) translateX(-0.65rem);
+}
+
+.change > .main-btn-line:nth-child(2) {
+  transform: rotateZ(-45deg) translateX(0.65rem);
+}
+
+.change > .main-btn-line:nth-child(3) {
+  transform: rotateZ(90deg) translateX(-0.5rem);
+  border-left: 0.1rem solid #fff;
+  border-right: none;
+}
+
+/* End of Projects Button */
+
 /* End Section 3 */
+
+/* Section  4  */
+.section-4 {
+  position: relative;
+  width: 100%;
+}
+
+/* Services  */
+
+.services-wrapper {
+  width: 100%;
+  flex-direction: column;
+}
+
+.service {
+  width: 70%;
+  margin: 2rem 0;
+  border-bottom: 0.5rem solid #9b0e0e;
+}
+
+.service-btn {
+  width: 100%;
+  position: relative;
+  /* background-color: red; */
+  display: block;
+  height: 15rem;
+}
+
+.service-btn span {
+  font-family: "Poppins", sans-serif;
+  font-size: 10rem;
+  font-style: italic;
+  font-weight: bold;
+  color: #9b0e0e;
+  position: absolute;
+  right: 0;
+  transition: right 0.5s, left 0.5s;
+}
+
+.service-text {
+  font-size: 5rem;
+  color: #777;
+  letter-spacing: 0.1rem;
+  /* height: 15rem; */
+  /* background-color: blueviolet; */
+  /* add Some Effects */
+  height: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.2s;
+}
+
+.change.service-text {
+  height: 15rem;
+  visibility: visible;
+  opacity: 1;
+  transition: height 0.5s, opacity 0.5s 0.5s;
+}
+
+/* End of Services  */
+
+/* End of Section  4  */
+
+/* Section 5 */
+.section-5 {
+  position: relative;
+  height: 100vh;
+  flex-direction: column;
+}
+
+/* Form */
+.form-heading {
+  font-family: "Poppins", sans-serif;
+  font-size: 6rem;
+  font-weight: 400;
+  color: #9b0e0e;
+  letter-spacing: 0.3rem;
+  margin-bottom: 3rem;
+  transition: opacity 0.3s;
+}
+.contact-form {
+  flex-direction: column;
+}
+
+.contact-form-input {
+  width: 60rem;
+  padding: 0.5rem;
+  margin: 1rem 0;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 0.1rem solid #9b0e0e;
+  font-size: 1.7rem;
+  font-weight: bold;
+  color: #aaa;
+  letter-spacing: 0.1rem;
+  height: 5rem;
+}
+
+.contact-form-textarea {
+  height: 20rem;
+  resize: none;
+}
+
+.form-submit-btn {
+  width: 20rem;
+  height: 5rem;
+  background-color: #9b0e0e;
+  border: none;
+  align-self: flex-start;
+  font-size: 1.8rem;
+  color: #fff;
+}
+
+/* End of Form */
+
+/* Slideshow */
+
+.slideshow {
+  display: flex;
+  width: 50rem;
+  margin-top: 10rem;
+  padding: 0 2rem;
+}
+
+.slideshow-link {
+  width: 20%;
+  filter: brightness(0.5);
+  transition: filter 1.5s;
+}
+
+.slideshow-link:nth-child(1),
+.slideshow-link:nth-child(5) {
+  transition: width 0.5s, opacity 0.5s;
+}
+
+.slideshow-link:nth-child(3) {
+}
+
+.slideshow-link img {
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.faded-out {
+  opacity: 0;
+  width: 0;
+}
+
+.light {
+  filter: brightness(1.5);
+}
+
+/* End of Slideshow */
+
+/* End of Section 5 */

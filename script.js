@@ -25,6 +25,7 @@ const animateCircles = (e, x, y) => {
     // console.log("moved to the left");
     circles.forEach((circle) => {
       circle.style.left = `${z}px`;
+      // console.log("circle.style", circle.style);
     });
     mainImg.style.left = `${z}px`;
   } else if (x > mX) {
@@ -95,6 +96,117 @@ mainBtns.forEach((btn) => {
 
 // End of Main Buttom
 
+// Progress Bar
+const sections = document.querySelectorAll("section");
+const progressBar = document.querySelector(".progress-bar");
+const halfCircles = document.querySelectorAll(".half-circle");
+const halfCircleTop = document.querySelector(".half-circle-top");
+const progressBarCircle = document.querySelector(".progress-bar-circle");
+
+const progressBarFn = (bigImgWrapper = false) => {
+  let pageHeight = 0;
+  let scrolledPortion = 0;
+  const pageViewporHeight = window.innerHeight;
+
+  if (!bigImgWrapper) {
+    // console.log("pageViewporHeight", pageViewporHeight);
+    pageHeight = document.documentElement.scrollHeight;
+    // console.log("pageHeight", pageHeight);
+    scrolledPortion = window.pageYOffset;
+    // console.log("scrolledPortion", scrolledPortion);
+  } else {
+    pageHeight = bigImgWrapper.firstElementChild.scrollHeight;
+    scrolledPortion = bigImgWrapper.scrollTop;
+  }
+
+  const scrolledPortionDegree =
+    (scrolledPortion / (pageHeight - pageViewporHeight)) * 360;
+  // console.log(scrolledPortionDegree);
+
+  halfCircles.forEach((el) => {
+    el.style.transform = `rotate(${scrolledPortionDegree}deg)`;
+  });
+
+  if (scrolledPortionDegree >= 180) {
+    halfCircles[0].style.transform = "rotate(180deg)";
+    halfCircleTop.style.opacity = "0";
+  } else {
+    halfCircleTop.style.opacity = "1";
+  }
+
+  const scrollBool = scrolledPortion + pageViewporHeight === pageHeight;
+
+  console.log(scrollBool);
+
+  // Progress Bar Click
+  progressBar.onclick = (e) => {
+    e.preventDefault();
+
+    if (!bigImgWrapper) {
+      // console.log("sections", sections);
+      const sectionPositions = Array.from(sections).map((section) => {
+        // console.log("scrolledPortion", scrolledPortion);
+        // console.log(
+        //   "section.getBoundingClientRect().top",
+        //   section.getBoundingClientRect().top
+        // );
+        return scrolledPortion + section.getBoundingClientRect().top;
+      });
+
+      const position = sectionPositions.find((sectionPositions) => {
+        return sectionPositions > scrolledPortion;
+      });
+      // console.log("scrolledPortion", scrolledPortion);
+      // console.log("sectionPositions", sectionPositions);
+      scrollBool ? window.scrollTo(0, 0) : window.scrollTo(0, position);
+      console.log("position", position);
+    } else {
+      scrollBool
+        ? bigImgWrapper.scrollTo(0, 0)
+        : bigImgWrapper.scrollTo(0, bigImgWrapper.scrollHeight);
+    }
+  };
+
+  // End Progres Bar Click
+
+  // Arrow Rotation
+  if (scrollBool) {
+    progressBarCircle.style.transform = "rotate(180deg)";
+  } else {
+    progressBarCircle.style.transform = "rotate(0)";
+  }
+};
+progressBarFn();
+// End of Progress Bar
+
+//  Navigation
+
+const menuIcon = document.querySelector(".menu-icon");
+const navbar = document.querySelector(".navbar");
+
+const scrollFn = () => {
+  menuIcon.classList.add("show-menu-icon");
+  navbar.classList.add("hide-navbar");
+
+  if (window.scrollY === 0) {
+    menuIcon.classList.remove("show-menu-icon");
+    navbar.classList.remove("hide-navbar");
+  }
+
+  document.addEventListener("scroll", scrollFn);
+
+  progressBarFn();
+};
+
+document.addEventListener("scroll", scrollFn);
+
+menuIcon.addEventListener("click", () => {
+  menuIcon.classList.remove("show-menu-icon");
+  navbar.classList.remove("hide-navbar");
+});
+
+// // End of Navigation
+
 //  About Me Text
 
 const aboutMeText = document.querySelector(".about-me-text");
@@ -116,18 +228,24 @@ Array.from(aboutMeTextContent).forEach((char) => {
 // Projects
 const container = document.querySelector(".container");
 const projects = document.querySelectorAll(".project");
+const projectHidenBtn = document.querySelector(".project-hide-btn");
 
-projects.forEach((project) => {
+projects.forEach((project, i) => {
   project.addEventListener("mouseenter", () => {
     project.firstElementChild.style.top = `-${
       project.firstElementChild.offsetHeight - project.offsetHeight + 20
     }px`;
+    // console.log(
+    //   "project.firstElementChild.style",
+    //   project.firstElementChild.style
+    // );
   });
 
   project.addEventListener("mouseleave", () => {
     project.firstElementChild.style.top = "2rem";
   });
 
+  // Big Project Image
   project.addEventListener("click", () => {
     const bigImgWrapper = document.createElement("div");
     bigImgWrapper.className = "project-img-wrapper";
@@ -140,9 +258,184 @@ projects.forEach((project) => {
     bigImg.setAttribute("src", `${imgPath}-big.jpg`);
     bigImgWrapper.appendChild(bigImg);
     document.body.style.overflowY = "hidden";
+
+    progressBarFn(bigImgWrapper);
+
+    bigImgWrapper.onscroll = () => {
+      progressBarFn(bigImgWrapper);
+    };
+
+    projectHidenBtn.classList.add("change");
+
+    projectHidenBtn.onclick = () => {
+      projectHidenBtn.classList.remove("change");
+      bigImgWrapper.remove();
+      document.body.style.overflowY = "scroll";
+
+      progressBarFn();
+    };
+  });
+
+  // End of Big Project Image
+
+  // if (i >= 6) {
+  //   project.style.cssText = "display: none ; opacity: 0 ";
+  // }
+  i >= 6 && (project.style.cssText = "display: none ; opacity: 0");
+
+  // Projects Button
+  const section3 = document.querySelector(".section-3");
+  const projectsBtn = document.querySelector(".projects-btn");
+  const projectsBtnText = document.querySelector(".projects-btn span");
+  let showHideBool = true;
+
+  const showProjects = (project, i) => {
+    setTimeout(() => {
+      project.style.display = "flex";
+      section3.scrollIntoView({ block: "end" });
+    }, 600);
+    setTimeout(() => {
+      project.style.opacity = "1";
+    }, i * 200);
+  };
+
+  const hideProjects = (project, i) => {
+    setTimeout(() => {
+      project.style.display = "none";
+      section3.scrollIntoView({ block: "end" });
+    }, 1200);
+    setTimeout(() => {
+      project.style.opacity = "0";
+    }, i * 100);
+  };
+
+  projectsBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    projectsBtn.firstElementChild.nextElementSibling.classList.toggle("change");
+
+    showHideBool
+      ? (projectsBtnText.textContent = "Show Less")
+      : (projectsBtnText.textContent = "Show More");
+
+    projects.forEach((project, i) => {
+      i >= 6 &&
+        (showHideBool ? showProjects(project, i) : hideProjects(project, i));
+    });
+    showHideBool = !showHideBool;
+  });
+
+  // projectsBtn.addEventListener("click", (e) => {
+  //   e.preventDefault();
+
+  //   // console.log(projectsBtn.firstElementChild.nextElementSibling);
+  //   projectsBtn.firstElementChild.nextElementSibling.classList.toggle("change");
+
+  //   projects.forEach((project, i) => {
+  //     if (i >= 6) {
+  //       if (showHideBool) {
+  //         setTimeout(() => {
+  //           project.style.display = "flex";
+  //           section3.scrollIntoView({ block: "end" });
+  //         }, 600);
+  //         setTimeout(() => {
+  //           project.style.opacity = "1";
+  //         }, i * 200);
+
+  //         projectsBtnText.textContent = "Show Less";
+  //       } else {
+  //         setTimeout(() => {
+  //           project.style.display = "none";
+  //           section3.scrollIntoView({ block: "end" });
+  //         }, 1200);
+  //         setTimeout(() => {
+  //           project.style.opacity = "0";
+  //         }, i * 100);
+  //         projectsBtnText.textContent = "Show More";
+  //       }
+  //     }
+  //   });
+  //   showHideBool = !showHideBool;
+  // });
+  // End of Projects Buttom
+});
+
+// End of Projects
+
+// Section 4
+
+document.querySelectorAll(".service-btn").forEach((service) => {
+  service.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const serviceText = service.nextElementSibling;
+    serviceText.classList.toggle("change");
+
+    const rightPosition = serviceText.classList.contains("change")
+      ? `calc(100% - ${getComputedStyle(service.firstElementChild).width})`
+      : 0;
+
+    // console.log("rightPosition", rightPosition);
+
+    service.firstElementChild.style.right = rightPosition;
+    // console.log("service.firstElementChild", service.firstElementChild.style);
   });
 });
 
-// Big Project Image
+// End of Section 4
 
-// End of Projects
+// Section 5
+// Form
+const formHeading = document.querySelector(".form-heading");
+const formInputs = document.querySelectorAll(".contact-form-input");
+
+formInputs.forEach((input) => {
+  input.addEventListener("focus", () => {
+    formHeading.style.opacity = "0";
+    setTimeout(() => {
+      formHeading.textContent = `Your ${input.placeholder}`;
+      formHeading.style.opacity = "1";
+    }, 300);
+  });
+});
+
+formInputs.forEach((input) => {
+  input.addEventListener("blur", () => {
+    formHeading.style.opacity = "0";
+    setTimeout(() => {
+      formHeading.textContent = "Let's Talk";
+      formHeading.style.opacity = "1";
+    }, 300);
+  });
+});
+// End of Form
+
+// Slideshow
+
+const slideshow = document.querySelector(".slideshow");
+
+setInterval(() => {
+  const firstIcon = slideshow.firstElementChild;
+
+  firstIcon.classList.add("faded-out");
+
+  const thirdIcon = slideshow.children[3];
+
+  thirdIcon.classList.add("light");
+
+  thirdIcon.previousElementSibling.classList.remove("light");
+
+  setTimeout(() => {
+    slideshow.removeChild(firstIcon);
+
+    slideshow.appendChild(firstIcon);
+
+    setTimeout(() => {
+      firstIcon.classList.remove("faded-out");
+    }, 500);
+  }, 500);
+}, 3000);
+
+// End of Slideshow
+
+// End of Section 5
